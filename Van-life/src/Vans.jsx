@@ -1,5 +1,20 @@
+import { useEffect, useState } from 'react';
+
+
 
 export default function Vans() {
+     const [vans, setVans ] = useState([]);
 
-    return <h1 style={{color: "black"}}>Vans Page</h1>
+    useEffect(() => {
+        fetch("/api/vans")
+            .then(res => res.json())
+            .then(data => setVans(data.vans))
+    }, [])
+
+      return (
+    <>
+        <h1 style={{color: "black"}}>Vans page goes here 🚐</h1>
+
+    </>
+)
 }
