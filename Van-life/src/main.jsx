@@ -14,6 +14,9 @@ import Reviews from "./Pages/Host/Reviews"
 import HostLayout from "./components/HostLayout"
 import HostVans from "./Pages/Host/HostVans"
 import HostVanDetails from './Pages/Host/HostVanDetails'
+import HostVanInfo from "./Pages/Host/HostVanInfo"
+import HostVanPhotos from "./Pages/Host/HostVanPhotos"
+import HostVanPricing from "./Pages/Host/HostVanPricing"
 
 
 
@@ -34,7 +37,12 @@ createRoot(document.getElementById('root')).render(
               <Route path='income' element={<Income />} />
               <Route path='reviews' element={<Reviews />} />
               <Route path='vans' element={<HostVans />} />
-              <Route path='vans/:id' element={<HostVanDetails />} />
+
+              <Route path='vans/:id' element={<HostVanDetails />} >
+                <Route index element={<HostVanInfo/>} />
+                <Route path="pricing" element={<HostVanPricing/>} />
+                <Route path="photos" element={<HostVanPhotos/>} />
+              </Route>
           </Route>           
         </Route>  
       </Routes>
