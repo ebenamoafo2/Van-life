@@ -22,7 +22,7 @@ export default function HostVanDetail() {
     if (!currentVan) {
         return <h1>Loading...</h1>
 
-        //styles 
+       
 
        
         

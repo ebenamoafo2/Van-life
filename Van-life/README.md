@@ -484,6 +484,191 @@ export default function HostVanPhotos() {
 | Scope                    | Only between a parent route and its direct children |
 | Common use               | Sharing fetched data, layout info, or handlers      |
 
+-------------------------------------------------------------------------------
+
+
+
 ---
+
+# 🚐 React Router Filtering with `useSearchParams`
+
+This project demonstrates how to use React Router’s `useSearchParams()` hook to manage **URL query parameters** for filtering and navigation in a React application.
+
+You’ll learn two main approaches:
+
+1. Using the `<Link>` component to filter via navigation.
+2. Using the `setSearchParams()` function to filter programmatically.
+
+---
+
+## 🧭 Overview
+
+`useSearchParams()` is a React Router hook that allows you to **read and modify the query string** in the URL (e.g., `?type=simple`).
+
+It returns an array with two values:
+
+```js
+const [searchParams, setSearchParams] = useSearchParams();
+```
+
+* `searchParams` → used to read parameters
+* `setSearchParams` → used to update them
+
+This makes it perfect for **filtering, sorting, and pagination** features.
+
+---
+
+## ⚙️ 1. Filtering with `<Link>`
+
+This approach uses **React Router Links** to change the URL query parameter when a user clicks a button.
+It’s simple, declarative, and great for static filter options.
+
+### 🧩 Example:
+
+```jsx
+import { Link, useSearchParams } from 'react-router';
+import { useEffect, useState } from 'react';
+
+export default function Vans() {
+  const [searchParams] = useSearchParams();
+  const [vans, setVans] = useState([]);
+
+  const typeFilter = searchParams.get('type');
+
+  useEffect(() => {
+    fetch("/api/vans")
+      .then(res => res.json())
+      .then(data => setVans(data.vans));
+  }, []);
+
+  const displayedVans = typeFilter
+    ? vans.filter(van => van.type === typeFilter)
+    : vans;
+
+  return (
+    <div className="van-list-container">
+      <h1>Explore our van options</h1>
+
+      {/* Filter Links that update query string */}
+      <div className="van-list-filter-buttons">
+        <Link to="?type=simple" className="van-type simple">Simple</Link>
+        <Link to="?type=luxury" className="van-type luxury">Luxury</Link>
+        <Link to="?type=rugged" className="van-type rugged">Rugged</Link>
+        <Link to="." className="van-type clear">Clear</Link>
+      </div>
+
+      <div className="van-list">
+        {displayedVans.map(van => (
+          <div key={van.id}>
+            <h3>{van.name}</h3>
+            <p>${van.price}/day</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+```
+
+### ✅ How It Works
+
+* Each `<Link>` updates the browser’s query string (`?type=simple`).
+* `useSearchParams()` detects this change.
+* The component re-renders automatically and filters vans based on the selected type.
+
+**Best For:**
+➡️ Static filters or navigation links (simple, clean UI).
+
+---
+
+## ⚙️ 2. Filtering with `setSearchParams()`
+
+This approach uses a **function call** to update the query parameters dynamically.
+It gives you more control and works well with dropdowns, buttons, or other custom UI events.
+
+### 🧩 Example:
+
+```jsx
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router';
+
+export default function Vans() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [vans, setVans] = useState([]);
+
+  const typeFilter = searchParams.get('type');
+
+  useEffect(() => {
+    fetch("/api/vans")
+      .then(res => res.json())
+      .then(data => setVans(data.vans));
+  }, []);
+
+  const displayedVans = typeFilter
+    ? vans.filter(van => van.type === typeFilter)
+    : vans;
+
+  // Update the URL query param programmatically
+  function handleFilterChange(type) {
+    if (type) {
+      setSearchParams({ type }); // sets ?type=simple, ?type=luxury, etc.
+    } else {
+      setSearchParams({}); // clears all filters
+    }
+  }
+
+  return (
+    <div className="van-list-container">
+      <h1>Explore our van options</h1>
+
+      {/* Filter buttons using setSearchParams */}
+      <div className="van-list-filter-buttons">
+        <button onClick={() => handleFilterChange('simple')}>Simple</button>
+        <button onClick={() => handleFilterChange('luxury')}>Luxury</button>
+        <button onClick={() => handleFilterChange('rugged')}>Rugged</button>
+        <button onClick={() => handleFilterChange(null)}>Clear</button>
+      </div>
+
+      <div className="van-list">
+        {displayedVans.map(van => (
+          <div key={van.id}>
+            <h3>{van.name}</h3>
+            <p>${van.price}/day</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+```
+
+### ✅ How It Works
+
+* Clicking a button triggers `setSearchParams()`.
+* The URL updates immediately (e.g., `?type=luxury`).
+* The component re-renders with filtered data.
+
+**Best For:**
+➡️ Dynamic filters, interactive forms, or real-time search.
+
+
+## 🧠 Key Takeaways
+
+* Both approaches **update the browser URL** and **trigger a re-render** automatically.
+* `useSearchParams()` keeps the UI state **in sync with the URL**, making your filters shareable and bookmarkable.
+* Choose **`Link`** for simple static filters, and **`setSearchParams()`** for dynamic interactions.
+
+---
+
+## 💡 Bonus Tip
+
+You can **combine both**:
+
+* Use `<Link>` for main category filters.
+* Use `setSearchParams()` for advanced dynamic filters (like price range or sort order).
+
+---
+
+
 
 
