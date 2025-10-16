@@ -667,7 +667,33 @@ You can **combine both**:
 * Use `<Link>` for main category filters.
 * Use `setSearchParams()` for advanced dynamic filters (like price range or sort order).
 
----
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+1. 404 (Not Found) Route
+
+Learned how to use the wildcard (*) path in React Router.
+
+Implemented a custom NotFound component:
+
+import { Link } from "react-router"
+
+export default function NotFound() {
+  return (
+    <>
+      <h1>Sorry, Page Not Found</h1>
+      <Link to="/">Click here to return to the main page</Link>
+    </>
+  )
+}
+
+
+Added this route at the end of the <Routes> list:
+
+<Route path="*" element={<NotFound />} />
+
+
+✅ Ensures that any unmatched route displays the 404 page.
 
 
 
