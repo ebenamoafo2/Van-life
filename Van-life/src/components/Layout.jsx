@@ -1,19 +1,15 @@
-import { Outlet } from 'react-router'
-import Header from "./Header"
-import Footer from './Footer'
+import { Outlet } from "react-router";
+import Header from "./Header";
+import Footer from "./Footer";
 
-export default function Layout(){
-return (
-    <>
-        
-        <Header />
-        <Outlet  />
-        <Footer />
-        
-        
-
-    </>
-
- 
-)
+export default function Layout() {
+  return (
+    <div className="site-wrapper">
+      <Header />
+      <main>
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  );
 }

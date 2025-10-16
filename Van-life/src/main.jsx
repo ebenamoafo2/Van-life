@@ -17,7 +17,7 @@ import HostVanDetails from './Pages/Host/HostVanDetails'
 import HostVanInfo from "./Pages/Host/HostVanInfo"
 import HostVanPhotos from "./Pages/Host/HostVanPhotos"
 import HostVanPricing from "./Pages/Host/HostVanPricing"
-
+import NotFound from './Pages/NotFound'
 
 
 
@@ -44,6 +44,8 @@ createRoot(document.getElementById('root')).render(
                 <Route path="photos" element={<HostVanPhotos/>} />
               </Route>
           </Route>           
+              {/* Catch-all for unmatched routes */}
+        <Route path="*" element={<NotFound />}/> 
         </Route>  
       </Routes>
     </BrowserRouter>

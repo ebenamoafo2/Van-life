@@ -13,7 +13,7 @@ export default function Vans() {
     // Get the value of the "type" query parameter (e.g., ?type=simple → "simple")
     const typeFilter = searchParams.get('type');
 
-    // Fetch van data once when the component mounts
+   
     useEffect(() => {
         fetch("/api/vans")
             .then(res => res.json())
@@ -32,7 +32,7 @@ export default function Vans() {
                 Link to a dynamic route for each van (e.g., /vans/1)
                 This allows navigation to the van detail page
             */}
-            <Link to={`/vans/${van.id}`}>
+            <Link to={van.id}>
                 <img src={van.imageUrl} alt={`Image of ${van.name}`} />
                 <div className="van-info">
                     <h3>{van.name}</h3>
@@ -52,7 +52,8 @@ export default function Vans() {
                 <Link 
                     to="?type=simple"
                     className="van-type simple"
-                >Simple</Link><Link 
+                >Simple</Link>
+                <Link 
                     to="?type=luxury"
                     className="van-type luxury"
                 >Luxury</Link>
@@ -60,10 +61,13 @@ export default function Vans() {
                     to="?type=rugged"
                     className="van-type rugged"
                 >Rugged</Link>
-                <Link 
+
+                {typeFilter ?
+                (<Link 
                     to="."
                     className="van-type simple"
-                >Clear</Link>
+                >Clear</Link> 
+                ): null}
             
             </div>
 
