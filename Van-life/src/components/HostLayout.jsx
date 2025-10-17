@@ -12,7 +12,7 @@ export default function HostLayout() {
         <>
             <nav className="host-nav">
                 <NavLink 
-                    to="/host" // or we can use " . "
+                    to="/host" // or we can use "."
                     end // 👈 ensures this link is only active on /host (not on nested routes like /host/income)
                     style={({isActive}) => isActive ? activeStyles : null}
                 >

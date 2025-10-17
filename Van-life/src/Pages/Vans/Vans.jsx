@@ -1,24 +1,23 @@
 import { useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router';
+import { Link, useSearchParams,useLoaderData } from 'react-router';
+import { getVans } from "../../api";
+
+
+
+
+export function loader() {
+    return getVans()
+}
 
 export default function Vans() {
 
-    // useSearchParams returns an array: [currentQueryParams, setQueryParams]
-    // This lets you read and update the query string in the URL (e.g., ?type=simple)
+    // useSearchParams returns an array: [currentQueryParams, setQueryParams
     const [searchParams, setSearchParams] = useSearchParams();
+    const vans = useLoaderData()
 
-    // useState to hold the list of vans fetched from the API
-    const [vans, setVans] = useState([]);
-
-    // Get the value of the "type" query parameter (e.g., ?type=simple → "simple")
+    // Get the value of the "type" query parameter (e.g.,type=simple → "simple")
     const typeFilter = searchParams.get('type');
 
-   
-    useEffect(() => {
-        fetch("/api/vans")
-            .then(res => res.json())
-            .then(data => setVans(data.vans));
-    }, []);
 
     // Filter the vans based on the type query parameter (if present)
     const displayedVans = typeFilter
