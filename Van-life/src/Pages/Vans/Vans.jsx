@@ -15,7 +15,7 @@ export default function Vans() {
     const [searchParams, setSearchParams] = useSearchParams();
     const vans = useLoaderData()
 
-    // Get the value of the "type" query parameter (e.g.,type=simple → "simple")
+    // Get the value of the "type" query parameter (eg type=simple → "simple")
     const typeFilter = searchParams.get('type');
 
 

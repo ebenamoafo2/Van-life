@@ -463,3 +463,17 @@ a.active-link {
 main {
   flex: 1;                    
 }
+
+
+
+/*.login-icon{*/
+/*    height: 30px;*/
+/*    width: 30px;*/
+/*    align-self: center;*/
+/*}*/
+
+.login-icon {
+    height: 1.25rem;
+    margin-bottom: 0;
+    vertical-align: middle;
+}

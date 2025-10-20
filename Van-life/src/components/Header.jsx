@@ -1,4 +1,5 @@
 import { Link,NavLink } from 'react-router';
+import Profile from "../assets/user.png"
 
 
 
@@ -28,6 +29,9 @@ export default function Header() {
                 >
                     Vans
                 </NavLink>
+                <Link to="/login" className="login-link">
+                    <img src={Profile} alt='user-icon' className="login-icon" />
+                </Link>
             </nav>
       </header>
     )
