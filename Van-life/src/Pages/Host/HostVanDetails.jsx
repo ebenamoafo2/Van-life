@@ -1,27 +1,20 @@
-import { useEffect, useState } from 'react';
-import { useParams, Link, Outlet,NavLink} from 'react-router';
+import {  Link, Outlet , NavLink , useLoaderData } from 'react-router';
+import { getHostVans} from "../../api.jsx";
+import { requireAuth } from '../../components/utility.js'
 
+
+export async function loader({ params }) {
+    await requireAuth();
+    return getHostVans(params.id)
+}
 
 export default function HostVanDetail() {
-
-     const { id } = useParams()
-    const [currentVan, setCurrentVan] = useState(null)
+    const currentVan = useLoaderData()
 
     const activeStyles = {
         fontWeight: "bold",
         textDecoration: "underline",
         color: "#161616"
-    }
-
-    useEffect(() => {
-        fetch(`/api/host/vans/${id}`)
-            .then(res => res.json())
-            .then(data => setCurrentVan(data.vans))
-    }, [id])
-    
-    if (!currentVan) {
-        return <h1>Loading...</h1>
-        
     }
 
     return (
@@ -30,13 +23,11 @@ export default function HostVanDetail() {
                 to=".."
                 relative="path"
                 className="back-button"
-                >&larr; <span>Back to all vans</span>
-
-            </Link>
+            >&larr; <span>Back to all vans</span></Link>
 
             <div className="host-van-detail-layout-container">
                 <div className="host-van-detail">
-                    <img src={currentVan.imageUrl} />
+                    <img src={currentVan.imageUrl} alt={`Photo of ${currentVan.name}`} />
                     <div className="host-van-detail-info-text">
                         <i
                             className={`van-type van-type-${currentVan.type}`}
@@ -48,7 +39,6 @@ export default function HostVanDetail() {
                     </div>
                 </div>
 
-
                 <nav className="host-van-detail-nav">
                     <NavLink
                         to="."
@@ -57,29 +47,21 @@ export default function HostVanDetail() {
                     >
                         Details
                     </NavLink>
-
                     <NavLink
                         to="pricing"
                         style={({ isActive }) => isActive ? activeStyles : null}
                     >
                         Pricing
                     </NavLink>
-
                     <NavLink
                         to="photos"
                         style={({ isActive }) => isActive ? activeStyles : null}
                     >
                         Photos
                     </NavLink>
-
                 </nav>
-
-                {/* Renders the child components in the parent component with the correct routes */}
                 <Outlet context={{ currentVan }} />
             </div>
-
-        
-
         </section>
     )
 }

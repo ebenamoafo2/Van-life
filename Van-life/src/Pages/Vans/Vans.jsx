@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Link, useSearchParams,useLoaderData } from 'react-router';
 import { getVans } from "../../api";
 
@@ -24,7 +23,7 @@ export default function Vans() {
         ? vans.filter(van => van.type === typeFilter)
         : vans;
 
-    // Map through the filtered vans to create a list of clickable van cards
+
     const vanElements = displayedVans.map(van => (
         <div key={van.id} className="van-tile">
             {/* 
