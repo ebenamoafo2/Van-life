@@ -1,8 +1,15 @@
-//import { useNavigate } from "react-router"
+import { useSearchParams } from "react-router-dom"
 import { useState } from "react"
 
 export default function Login() {
     const [loginFormData, setLoginFormData] = useState({ email: "", password: "" })
+
+    // useSearchParams gives us access to URL query parameters
+    const [searchParams] = useSearchParams()
+
+    // Extract the "message" query parameter from the URL
+    const message = searchParams.get("message")
+
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -20,6 +27,14 @@ export default function Login() {
     return (
         <div className="login-container">
             <h1>Sign in to your account</h1>
+            {/* Conditional rendering for redirect messages */}
+
+            {message && (
+                <p className="login-message" style={{ color: "red", marginBottom: "1rem" }}>
+                    {message}
+                </p>
+            )}
+
             <form onSubmit={handleSubmit} className="login-form">
                 <input
                     name="email"

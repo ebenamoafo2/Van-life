@@ -1,5 +1,5 @@
 import React from "react"
-import { Link, useLocation, useLoaderData } from "react-router"
+import { Link, useLocation, useLoaderData } from "react-router-dom"
 import { getVans } from "../../api"
 
 export function loader({ params }) {
@@ -9,6 +9,7 @@ export function loader({ params }) {
 export default function VanDetail() {
     const location = useLocation()
     const van = useLoaderData()
+
 
     const search = location.state?.search || "";
     const type = location.state?.type || "all";
@@ -22,7 +23,7 @@ export default function VanDetail() {
             >&larr; <span>Back to {type} vans</span></Link>
 
             <div className="van-detail">
-                <img src={van.imageUrl} />
+                <img src={van.imageUrl} alt={van.name} />
                 <i className={`van-type ${van.type} selected`}>
                     {van.type}
                 </i>

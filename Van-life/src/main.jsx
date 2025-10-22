@@ -5,7 +5,7 @@ import {
   , Route
   , createRoutesFromElements
   , RouterProvider,
-} from 'react-router';
+} from 'react-router-dom';
 
 import './index.css'
 import App from './Pages/App.jsx'
@@ -58,20 +58,26 @@ const router = createBrowserRouter(createRoutesFromElements(
               loader={vanDetailLoader}
           />
 
-            <Route path ="host" element={<HostLayout/>}>
+            <Route
+                path ="host"
+                element={<HostLayout/>}
+                loader={requireAuth}
+                errorElement={<Error />}
+
+            >
               <Route
                   index element={<Dashboard />}
-                  loader={async () => await requireAuth()}
+
               />
               <Route
                   path='income'
                   element={<Income />}
-                  loader={async () => await requireAuth()}
+
               />
               <Route
                   path='reviews'
                   element={<Reviews />}
-                  loader={async () => await requireAuth()}
+
               />
               <Route
                   path='vans'
