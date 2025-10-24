@@ -1,58 +1,64 @@
-import { useSearchParams } from "react-router-dom"
+import {
+    useLoaderData,
+    useNavigate,
+    Form,
+    redirect
+} from "react-router-dom"
+import { loginUser } from "../api"
 import { useState } from "react"
 
+export function loader({ request }) {
+    return new URL(request.url).searchParams.get("message")
+}
+
+export async function action({ request }) {
+    const formData = await request.formData()
+    const email = formData.get("email")
+    const password = formData.get("password")
+
+    try {
+        const data = await loginUser({email, password})
+        localStorage.setItem("loggedIn", true)
+        return redirect("/host")
+    }catch(err) {
+        return err.message || "Login failed."
+    }
+}
+
 export default function Login() {
-    const [loginFormData, setLoginFormData] = useState({ email: "", password: "" })
-
-    // useSearchParams gives us access to URL query parameters
-    const [searchParams] = useSearchParams()
-
-    // Extract the "message" query parameter from the URL
-    const message = searchParams.get("message")
+    const [status, setStatus] = useState("idle")
+    const [error, setError] = useState(null)
+    const message = useLoaderData()
 
 
-    function handleSubmit(e) {
-        e.preventDefault()
-        console.log(loginFormData)
-    }
-
-    function handleChange(e) {
-        const { name, value } = e.target
-        setLoginFormData(prev => ({
-            ...prev,
-            [name]: value
-        }))
-    }
 
     return (
         <div className="login-container">
             <h1>Sign in to your account</h1>
-            {/* Conditional rendering for redirect messages */}
+            {message && <h3 className="red">{message}</h3>}
+            {error && <h3 className="red">{error.message}</h3>}
 
-            {message && (
-                <p className="login-message" style={{ color: "red", marginBottom: "1rem" }}>
-                    {message}
-                </p>
-            )}
-
-            <form onSubmit={handleSubmit} className="login-form">
+            <Form method="post" className="login-form" replace>
                 <input
                     name="email"
-                    onChange={handleChange}
                     type="email"
                     placeholder="Email address"
-                    value={loginFormData.email}
                 />
                 <input
                     name="password"
-                    onChange={handleChange}
                     type="password"
                     placeholder="Password"
-                    value={loginFormData.password}
                 />
-                <button>Log in</button>
-            </form>
+                <button
+                    disabled={status === "submitting"}
+
+                >
+                    {status === "submitting"
+                        ? "Logging in..."
+                        : "Log in"
+                    }
+                </button>
+            </Form>
         </div>
     )
-
 }

@@ -26,7 +26,7 @@ import HostVanPricing from "./Pages/Host/HostVanPricing"
 import NotFound from './Pages/NotFound'
 import Error from "./components/Error.jsx"
 import { requireAuth } from './components/utility.js'
-import Login from './Pages/Login'
+import Login, {loader as loginLoader, action as loginAction} from './Pages/Login'
 
 const router = createBrowserRouter(createRoutesFromElements(
 
@@ -43,6 +43,9 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route
                 path="login"
                 element={<Login />}
+                action={loginAction}
+                loader={loginLoader}
+                errorElement={<Error />}
             />
           <Route
               path='/vans'
