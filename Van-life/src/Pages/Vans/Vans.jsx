@@ -1,4 +1,4 @@
-import { Link, useSearchParams,useLoaderData } from 'react-router';
+import { Link, useSearchParams,useLoaderData } from 'react-router-dom';
 import { getVans } from "../../api";
 
 

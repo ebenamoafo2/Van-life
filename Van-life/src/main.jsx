@@ -64,7 +64,7 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route
                 path ="host"
                 element={<HostLayout/>}
-                loader={requireAuth}
+                loader={requireAuth}  
                 errorElement={<Error />}
 
             >
@@ -94,18 +94,19 @@ const router = createBrowserRouter(createRoutesFromElements(
                   loader={hostVanDetailLoader}
               >
                 <Route
-                    index element={<HostVanInfo/>}
-                    loader={async () => await requireAuth()}
+                    index 
+                    element={<HostVanInfo/>}
+                    loader={requireAuth}
                 />
                 <Route
                     path="pricing"
                     element={<HostVanPricing/>}
-                    loader={async () => await requireAuth()}
+                    loader={requireAuth}
                 />
                 <Route
                     path="photos"
                     element={<HostVanPhotos/>}
-                    loader={async () => await requireAuth()}
+                    loader={requireAuth}
                 />
               </Route>
           </Route>

@@ -1,15 +1,17 @@
-import { Link,NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import Profile from "../assets/user.png"
 
-
-
 export default function Header() {
+    const navigate = useNavigate();
 
-
+    function handleLogout() {
+        localStorage.removeItem("loggedIn");
+        navigate("/login");
+    }
 
     return (
         <header>
-         <Link className="site-logo" to="/">#VanLife</Link>
+            <Link className="site-logo" to="/">#VanLife</Link>
             <nav>
                 <NavLink 
                     to="/host"
@@ -29,10 +31,20 @@ export default function Header() {
                 >
                     Vans
                 </NavLink>
-                <Link to="/login" className="login-link">
-                    <img src={Profile} alt='user-icon' className="login-icon" />
-                </Link>
+                {
+                    localStorage.getItem("loggedIn") ? 
+                    <button 
+                        onClick={handleLogout}
+                        className="logout-btn"
+                    >
+                        Logout
+                    </button>
+                    :
+                    <Link to="/login" className="login-link">
+                        <img src={ Profile } alt='user-icon' className="login-icon" />
+                    </Link>
+                }
             </nav>
-      </header>
+        </header>
     )
 }
