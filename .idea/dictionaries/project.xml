@@ -2,6 +2,8 @@
   <dictionary name="project">
     <words>
       <w>dreamfinder</w>
+      <w>islogged</w>
+      <w>loggedin</w>
       <w>navbars</w>
     </words>
   </dictionary>

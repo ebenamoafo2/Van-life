@@ -5,45 +5,47 @@ export default function Header() {
     const navigate = useNavigate();
 
     function handleLogout() {
-        localStorage.removeItem("loggedIn");
-        navigate("/login");
+        localStorage.removeItem("loggedin");
+        navigate("/host");
     }
+
+    const isloggedIn = localStorage.getItem("loggedin") === "true"
 
     return (
         <header>
             <Link className="site-logo" to="/">#VanLife</Link>
             <nav>
-                <NavLink 
-                    to="/host"
+                <NavLink
+                    to="host"
                     className={({isActive}) => isActive ? "active-link" : null}
                 >
                     Host
                 </NavLink>
-                <NavLink 
-                    to="/about"
+                <NavLink
+                    to="about"
                     className={({isActive}) => isActive ? "active-link" : null}
                 >
                     About
                 </NavLink>
-                <NavLink 
-                    to="/vans"
+                <NavLink
+                    to="vans"
                     className={({isActive}) => isActive ? "active-link" : null}
                 >
                     Vans
                 </NavLink>
-                {
-                    localStorage.getItem("loggedIn") ? 
-                    <button 
+
+                {isloggedIn &&
+                    <button
                         onClick={handleLogout}
                         className="logout-btn"
                     >
                         Logout
                     </button>
-                    :
-                    <Link to="/login" className="login-link">
+                    }
+                    <Link to="login" className="login-link">
                         <img src={ Profile } alt='user-icon' className="login-icon" />
                     </Link>
-                }
+
             </nav>
         </header>
     )

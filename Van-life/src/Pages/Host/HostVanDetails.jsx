@@ -3,8 +3,8 @@ import { getHostVans} from "../../api.jsx";
 import { requireAuth } from '../../components/utility.js'
 
 
-export async function loader({ params }) {
-    await requireAuth();
+export async function loader({ params, request }) {
+    await requireAuth(request);
     return getHostVans(params.id)
 }
 

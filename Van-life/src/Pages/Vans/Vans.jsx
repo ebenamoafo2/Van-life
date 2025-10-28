@@ -11,10 +11,10 @@ export function loader() {
 export default function Vans() {
 
     // useSearchParams returns an array: [currentQueryParams, setQueryParams
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const vans = useLoaderData()
 
-    // Get the value of the "type" query parameter (eg type=simple → "simple")
+    // Get the value of the "type" query parameter (type=simple → "simple")
     const typeFilter = searchParams.get('type');
 
 

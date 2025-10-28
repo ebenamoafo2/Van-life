@@ -1,12 +1,11 @@
 import {
     useLoaderData,
+    useNavigation,
     Form,
     redirect,
-    useActionData,
-    useNavigation
+    useActionData
 } from "react-router-dom"
 import { loginUser } from "../api"
-
 
 export function loader({ request }) {
     return new URL(request.url).searchParams.get("message")
@@ -16,24 +15,22 @@ export async function action({ request }) {
     const formData = await request.formData()
     const email = formData.get("email")
     const password = formData.get("password")
+    const pathname = new URL(request.url).searchParams.get("redirectTo") || "/host"
+
 
     try {
-        const data = await loginUser({email, password})
-        localStorage.setItem("loggedIn", "true")
-        return redirect("/host")
-    }catch(err) {
+        const data = await loginUser({ email, password })
+        localStorage.setItem("loggedin", true)
+        return redirect(pathname)
+    } catch(err) {
         return err.message
     }
 }
 
 export default function Login() {
-    const message = useLoaderData()
     const errorMessage = useActionData()
-    console.log(errorMessage)
+    const message = useLoaderData()
     const navigation = useNavigation()
-
-
-
 
     return (
         <div className="login-container">
@@ -41,7 +38,11 @@ export default function Login() {
             {message && <h3 className="red">{message}</h3>}
             {errorMessage && <h3 className="red">{errorMessage}</h3>}
 
-            <Form method="post" className="login-form" replace>
+            <Form
+                method="post"
+                className="login-form"
+                replace
+            >
                 <input
                     name="email"
                     type="email"
@@ -54,7 +55,6 @@ export default function Login() {
                 />
                 <button
                     disabled={navigation.state === "submitting"}
-
                 >
                     {navigation.state === "submitting"
                         ? "Logging in..."
